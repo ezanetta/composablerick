@@ -1,4 +1,4 @@
-package com.ezanetta.composablerick.presentation.model
+package com.ezanetta.composablerick.presentation.randomcharacter.model
 
 import com.ezanetta.composablerick.domain.entity.Character
 

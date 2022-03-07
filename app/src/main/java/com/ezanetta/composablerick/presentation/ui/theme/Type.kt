@@ -1,4 +1,4 @@
-package com.ezanetta.composablerick.ui.theme
+package com.ezanetta.composablerick.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
