@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ComposableRick</string>
+    <string name="reload_button_cd">Refresh character</string>
+    <string name="status_specie">%1$s - %2$s</string>
 </resources>
