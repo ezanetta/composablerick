@@ -2,7 +2,9 @@ package com.ezanetta.composablerick.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val Cyan = Color(0xFF26c6da)
+val CyanDark = Color(0xFF0095a8)
+val CyanLight = Color(0xFF6ff9ff)
+val Pink = Color(0xFFf06292)
+val PinkDark = Color(0xFFba2d65)
+val PinkLight = Color(0xFFff94c2)
