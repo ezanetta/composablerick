@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,13 @@ import com.ezanetta.composablerick.domain.entity.Character
 import com.ezanetta.composablerick.domain.entity.Status
 import com.ezanetta.composablerick.presentation.randomcharacter.model.RandomCharacterEvent
 import com.ezanetta.composablerick.presentation.randomcharacter.model.RandomCharacterState
+import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.LOAD_CHARACTER_ACTION_BUTTON
+import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.LOAD_CHARACTER_BUTTON
+import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.RANDOM_CHARACTER_CARD
+import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.RANDOM_CHARACTER_IMAGE
+import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.RANDOM_CHARACTER_LOADING
+import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.RANDOM_CHARACTER_NAME
+import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.RANDOM_CHARACTER_STATUS_AND_SPECIES
 import com.ezanetta.composablerick.presentation.ui.theme.ComposableRickTheme
 
 @Composable
@@ -52,7 +60,7 @@ private fun RenderLoading(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(modifier = Modifier.testTag(RANDOM_CHARACTER_LOADING))
         }
     }
 }
@@ -79,10 +87,13 @@ private fun LoadCharacterButton(
 ) {
     if (!randomCharacterState.isLoading) {
         Box(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier
+                .testTag(LOAD_CHARACTER_BUTTON)
+                .fillMaxHeight(),
             contentAlignment = Alignment.BottomCenter
         ) {
             IconButton(
+                modifier = Modifier.testTag(LOAD_CHARACTER_ACTION_BUTTON),
                 onClick = { handleEvent(RandomCharacterEvent.GetNewCharacter) }
             ) {
                 Icon(
@@ -105,6 +116,7 @@ private fun CharacterCard(
 ) {
     Card(
         modifier = Modifier
+            .testTag(RANDOM_CHARACTER_CARD)
             .wrapContentWidth()
             .wrapContentHeight(),
         elevation = 4.dp
@@ -112,6 +124,7 @@ private fun CharacterCard(
         Row {
             AsyncImage(
                 modifier = Modifier
+                    .testTag(RANDOM_CHARACTER_IMAGE)
                     .width(170.dp)
                     .height(170.dp),
                 model = character.image,
@@ -127,6 +140,7 @@ private fun CharacterCard(
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
+                    modifier = Modifier.testTag(RANDOM_CHARACTER_NAME),
                     fontSize = 24.sp,
                     text = character.name,
                     maxLines = 4,
@@ -141,7 +155,9 @@ private fun CharacterCard(
 
                     Text(
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(horizontal = 4.dp),
+                        modifier = Modifier
+                            .testTag(RANDOM_CHARACTER_STATUS_AND_SPECIES)
+                            .padding(horizontal = 4.dp),
                         text = String.format(
                             stringResource(id = R.string.status_specie),
                             character.status,
