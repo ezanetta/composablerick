@@ -31,7 +31,7 @@ class GetCharacterViewModel @Inject constructor(
                     )
                 }, {
                     uiState.value = uiState.value.copy(
-                        error = it,
+                        showError = true,
                         isLoading = true
                     )
                 })

@@ -7,6 +7,6 @@ interface CharacterRepository {
     suspend fun getCharacterById(
         id: Int,
         onComplete: (Character) -> Unit,
-        onError: (String?) -> Unit
+        onError: () -> Unit
     )
 }

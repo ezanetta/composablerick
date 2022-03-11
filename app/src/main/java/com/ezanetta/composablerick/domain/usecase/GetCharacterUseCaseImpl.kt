@@ -10,7 +10,7 @@ class GetCharacterUseCaseImpl @Inject constructor(
 
     override suspend fun execute(
         onComplete: (Character) -> Unit,
-        onError: (String?) -> Unit
+        onError: () -> Unit
     ) {
         characterRepository.getCharacterById(
             id = getRandomId(),

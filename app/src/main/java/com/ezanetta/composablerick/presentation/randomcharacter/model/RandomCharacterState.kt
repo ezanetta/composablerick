@@ -5,5 +5,5 @@ import com.ezanetta.composablerick.domain.entity.Character
 data class RandomCharacterState(
     val isLoading: Boolean = false,
     val character: Character? = null,
-    val error: String? = null
+    val showError: Boolean = false
 )

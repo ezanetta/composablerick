@@ -10,7 +10,6 @@ import com.skydoves.sandwich.SandwichInitializer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.mock
 import retrofit2.Response
@@ -24,7 +23,7 @@ class NetworkCharacterRepositoryTest {
             // GIVEN
             val characterId = 608
             val onComplete: (Character) -> Unit = mock()
-            val onError: (String?) -> Unit = mock()
+            val onError: () -> Unit = mock()
 
             val rickAndMortyApiClient: RickAndMortyApiClient = mock {
                 onBlocking { getCharacterById(characterId) }.thenReturn(
@@ -53,7 +52,7 @@ class NetworkCharacterRepositoryTest {
             // GIVEN
             val characterId = 608
             val onComplete: (Character) -> Unit = mock()
-            val onError: (String?) -> Unit = mock()
+            val onError: () -> Unit = mock()
             val errorMessage = Exception("Error 500")
             val responseError = ApiResponse.error<Character>(errorMessage)
 
@@ -72,7 +71,7 @@ class NetworkCharacterRepositoryTest {
             )
 
             // THEN
-            verify(onError, times(1))
+            verify(onError).invoke()
         }
     }
 
