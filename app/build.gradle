@@ -87,6 +87,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     androidTestImplementation("org.mockito:mockito-android:3.12.4")
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
 }
