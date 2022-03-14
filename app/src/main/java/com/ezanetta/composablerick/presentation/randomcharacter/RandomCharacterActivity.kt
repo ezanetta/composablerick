@@ -3,9 +3,11 @@ package com.ezanetta.composablerick.presentation.randomcharacter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.Scaffold
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
+import androidx.navigation.compose.rememberNavController
+import com.ezanetta.composablerick.presentation.navigation.NavigationGraph
+import com.ezanetta.composablerick.presentation.navigation.RenderBottomNavigation
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,13 +19,12 @@ class RandomCharacterActivity : ComponentActivity() {
 
         setContent {
             val getCharacterViewModel: GetCharacterViewModel = viewModel()
-            RandomCharacterScreen(
-                randomCharacterState = getCharacterViewModel
-                    .uiState
-                    .collectAsState()
-                    .value,
-                handleEvent = getCharacterViewModel::handleEvent
-            )
+            val navController = rememberNavController()
+            Scaffold(
+                bottomBar = { RenderBottomNavigation(navController = navController) }
+            ) {
+                NavigationGraph(navController = navController, getCharacterViewModel)
+            }
         }
     }
 }
