@@ -1,4 +1,4 @@
-package com.ezanetta.composablerick.presentation.randomcharacter
+package com.ezanetta.composablerick.presentation.navigation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,13 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Scaffold
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.ezanetta.composablerick.presentation.navigation.NavigationGraph
-import com.ezanetta.composablerick.presentation.navigation.RenderBottomNavigation
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RandomCharacterActivity : ComponentActivity() {
+class NavigationActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
