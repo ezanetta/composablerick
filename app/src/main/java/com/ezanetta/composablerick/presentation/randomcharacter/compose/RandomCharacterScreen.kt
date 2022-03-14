@@ -89,8 +89,7 @@ private fun LoadCharacterButton(
         Box(
             modifier = Modifier
                 .testTag(LOAD_CHARACTER_BUTTON)
-                .fillMaxHeight()
-                .padding(bottom = 60.dp),
+                .fillMaxHeight(),
             contentAlignment = Alignment.BottomCenter
         ) {
             IconButton(

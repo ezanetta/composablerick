@@ -1,5 +1,7 @@
 package com.ezanetta.composablerick.presentation.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -7,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -22,11 +25,16 @@ import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
 
 @Composable
 fun NavigationGraph(
+    innerPadding: PaddingValues,
     navController: NavHostController,
     getCharacterViewModel: GetCharacterViewModel
 ) {
 
-    NavHost(navController, startDestination = BottomNavItem.Random.screenRoute) {
+    NavHost(
+        navController,
+        startDestination = BottomNavItem.Random.screenRoute,
+        Modifier.padding(innerPadding)
+    ) {
         composable(BottomNavItem.Random.screenRoute) {
             RandomCharacterScreen(
                 randomCharacterState = getCharacterViewModel

@@ -20,8 +20,12 @@ class NavigationActivity : ComponentActivity() {
             val navController = rememberNavController()
             Scaffold(
                 bottomBar = { RenderBottomNavigation(navController = navController) }
-            ) {
-                NavigationGraph(navController = navController, getCharacterViewModel)
+            ) { innerPadding ->
+                NavigationGraph(
+                    innerPadding = innerPadding,
+                    navController = navController,
+                    getCharacterViewModel = getCharacterViewModel
+                )
             }
         }
     }
