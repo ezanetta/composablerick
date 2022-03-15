@@ -18,7 +18,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.ezanetta.composablerick.presentation.characters.CharactersScreen
+import com.ezanetta.composablerick.presentation.characters.compose.CharactersScreen
+import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
 import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
@@ -27,7 +28,8 @@ import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
 fun NavigationGraph(
     innerPadding: PaddingValues,
     navController: NavHostController,
-    getCharacterViewModel: GetCharacterViewModel
+    getCharacterViewModel: GetCharacterViewModel,
+    getAllCharactersViewModel: GetAllCharactersViewModel
 ) {
 
     NavHost(
@@ -46,7 +48,12 @@ fun NavigationGraph(
         }
 
         composable(BottomNavItem.Characters.screenRoute) {
-            CharactersScreen()
+            CharactersScreen(
+                charactersState = getAllCharactersViewModel
+                    .uiState
+                    .collectAsState()
+                    .value
+            )
         }
 
         composable(BottomNavItem.Search.screenRoute) {

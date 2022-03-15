@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -76,7 +77,13 @@ private fun RenderCharacterCard(
         visible = !randomCharacterState.isLoading
     ) {
         randomCharacterState.character?.let {
-            CharacterCard(character = it)
+            CharacterCard(
+                modifier = Modifier.padding(all = 20.dp)
+                    .wrapContentWidth()
+                    .wrapContentHeight(),
+                character = it,
+                imageHeight = 350.dp
+            )
         }
     }
 }
@@ -112,15 +119,14 @@ private fun LoadCharacterButton(
 }
 
 @Composable
-private fun CharacterCard(
-    character: Character
+fun CharacterCard(
+    modifier: Modifier = Modifier,
+    character: Character,
+    imageHeight: Dp,
 ) {
     Card(
-        modifier = Modifier
-            .testTag(RANDOM_CHARACTER_CARD)
-            .padding(horizontal = 20.dp)
-            .wrapContentWidth()
-            .wrapContentHeight(),
+        modifier = modifier
+            .testTag(RANDOM_CHARACTER_CARD),
         elevation = 4.dp
     ) {
         Column(
@@ -132,7 +138,7 @@ private fun CharacterCard(
                 modifier = Modifier
                     .testTag(RANDOM_CHARACTER_IMAGE)
                     .fillMaxWidth()
-                    .height(350.dp),
+                    .height(imageHeight),
                 contentScale = ContentScale.Crop,
                 model = character.image,
                 contentDescription = character.name,
@@ -150,7 +156,7 @@ private fun CharacterCard(
                     modifier = Modifier.testTag(RANDOM_CHARACTER_NAME),
                     fontSize = 24.sp,
                     text = character.name,
-                    maxLines = 4,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
 

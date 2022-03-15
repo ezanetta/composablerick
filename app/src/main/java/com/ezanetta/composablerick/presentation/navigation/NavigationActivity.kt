@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Scaffold
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,6 +18,7 @@ class NavigationActivity : ComponentActivity() {
 
         setContent {
             val getCharacterViewModel: GetCharacterViewModel = viewModel()
+            val getAllCharactersViewModel: GetAllCharactersViewModel = viewModel()
             val navController = rememberNavController()
             Scaffold(
                 bottomBar = { RenderBottomNavigation(navController = navController) }
@@ -24,7 +26,8 @@ class NavigationActivity : ComponentActivity() {
                 NavigationGraph(
                     innerPadding = innerPadding,
                     navController = navController,
-                    getCharacterViewModel = getCharacterViewModel
+                    getCharacterViewModel = getCharacterViewModel,
+                    getAllCharactersViewModel = getAllCharactersViewModel
                 )
             }
         }
