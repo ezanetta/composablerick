@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -117,25 +118,31 @@ private fun CharacterCard(
     Card(
         modifier = Modifier
             .testTag(RANDOM_CHARACTER_CARD)
+            .padding(horizontal = 20.dp)
             .wrapContentWidth()
             .wrapContentHeight(),
         elevation = 4.dp
     ) {
-        Row {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
             AsyncImage(
                 modifier = Modifier
                     .testTag(RANDOM_CHARACTER_IMAGE)
-                    .width(170.dp)
-                    .height(170.dp),
+                    .fillMaxWidth()
+                    .height(350.dp),
+                contentScale = ContentScale.Crop,
                 model = character.image,
                 contentDescription = character.name,
             )
             Column(
                 modifier = Modifier
-                    .width(180.dp)
+                    .fillMaxWidth()
                     .padding(
-                        horizontal = 20.dp,
-                        vertical = 4.dp
+                        horizontal = 16.dp,
+                        vertical = 10.dp
                     ),
                 verticalArrangement = Arrangement.Top
             ) {
