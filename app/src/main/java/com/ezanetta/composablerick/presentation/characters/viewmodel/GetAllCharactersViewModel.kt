@@ -26,8 +26,12 @@ class GetAllCharactersViewModel @Inject constructor(
         uiState.value = uiState.value.copy(
             isLoading = false,
             charactersPagingData = Pager(
-                PagingConfig(10)
+                PagingConfig(PAGE_SIZE)
             ) { allCharactersDataSource }.flow.cachedIn(viewModelScope)
         )
+    }
+
+    private companion object {
+        const val PAGE_SIZE = 20
     }
 }
