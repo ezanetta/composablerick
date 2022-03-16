@@ -52,7 +52,8 @@ fun NavigationGraph(
                 charactersState = getAllCharactersViewModel
                     .uiState
                     .collectAsState()
-                    .value
+                    .value,
+                handleEvent = getAllCharactersViewModel::handleEvent
             )
         }
 

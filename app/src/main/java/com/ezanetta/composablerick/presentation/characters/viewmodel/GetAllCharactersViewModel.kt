@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.ezanetta.composablerick.data.datasource.AllCharactersDataSource
+import com.ezanetta.composablerick.presentation.characters.model.CharactersEvent
 import com.ezanetta.composablerick.presentation.characters.model.CharactersState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,11 +25,27 @@ class GetAllCharactersViewModel @Inject constructor(
 
     private fun fetchAllCharacters() {
         uiState.value = uiState.value.copy(
-            isLoading = false,
             charactersPagingData = Pager(
                 PagingConfig(PAGE_SIZE)
             ) { allCharactersDataSource }.flow.cachedIn(viewModelScope)
         )
+    }
+
+    fun handleEvent(charactersEvent: CharactersEvent) {
+        when (charactersEvent) {
+
+            CharactersEvent.HideLoading -> {
+                uiState.value = uiState.value.copy(
+                    isLoading = false
+                )
+            }
+
+            CharactersEvent.ShowLoading -> {
+                uiState.value = uiState.value.copy(
+                    isLoading = true
+                )
+            }
+        }
     }
 
     private companion object {
