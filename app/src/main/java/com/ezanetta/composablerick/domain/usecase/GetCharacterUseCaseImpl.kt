@@ -23,6 +23,6 @@ class GetCharacterUseCaseImpl @Inject constructor(
 
     private companion object {
         const val FIRST_CHARACTER_INDEX = 1
-        const val LAST_CHARACTER_INDEX = 671
+        const val LAST_CHARACTER_INDEX = 826
     }
 }
