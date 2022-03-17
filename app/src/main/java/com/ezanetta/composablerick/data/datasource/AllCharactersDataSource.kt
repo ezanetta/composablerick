@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ezanetta.composablerick.data.network.RickAndMortyApiClient
 import com.ezanetta.composablerick.domain.entity.Character
-import com.skydoves.sandwich.getOrNull
+import com.skydoves.sandwich.getOrThrow
 import javax.inject.Inject
 
 class AllCharactersDataSource @Inject constructor(
@@ -20,16 +20,16 @@ class AllCharactersDataSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         val page = params.key ?: INITIAL_PAGE
-        val response = rickAndMortyApiClient.getAllCharacters(page).getOrNull()
+        val response = rickAndMortyApiClient.getAllCharacters(page).getOrThrow()
 
-        return if (response != null) {
+        return try {
             LoadResult.Page(
                 data = response.results,
                 prevKey = if (page == INITIAL_PAGE) null else page - ONE_PAGE,
                 nextKey = if (response.results.isEmpty()) null else page + ONE_PAGE
             )
-        } else {
-            LoadResult.Error(Exception("Something went wrong"))
+        } catch(e: java.lang.Exception) {
+            LoadResult.Error(Exception(e))
         }
     }
 
