@@ -1,6 +1,8 @@
 package com.ezanetta.composablerick.presentation.characters.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.ezanetta.composablerick.domain.usecase.GetAllCharactersUseCase
 import com.ezanetta.composablerick.presentation.characters.model.CharactersEvent
 import com.ezanetta.composablerick.presentation.characters.model.CharactersState
@@ -21,7 +23,8 @@ class GetAllCharactersViewModel @Inject constructor(
 
     private fun fetchAllCharacters() {
         uiState.value = uiState.value.copy(
-            charactersPagingData = getAllCharactersUseCase.fetchCharacters()
+            charactersPagingData = getAllCharactersUseCase
+                .fetchCharacters().cachedIn(viewModelScope)
         )
     }
 
