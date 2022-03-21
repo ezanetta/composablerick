@@ -2,7 +2,10 @@ package com.ezanetta.composablerick.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +22,7 @@ import com.ezanetta.composablerick.presentation.characters.compose.CharactersScr
 import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
+import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
@@ -61,11 +65,7 @@ fun NavigationGraph(
             }
 
             composable(BottomNavItem.Search.screenRoute) {
-                Button(onClick = {
-                    navController.navigate("sheet")
-                }) {
-                    Text("Click me to see something cool!")
-                }
+                SearchCharacterScreen()
             }
 
             bottomSheet(route = "characterSheet") {
