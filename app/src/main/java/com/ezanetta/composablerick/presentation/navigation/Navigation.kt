@@ -2,10 +2,7 @@ package com.ezanetta.composablerick.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,43 +19,58 @@ import com.ezanetta.composablerick.presentation.characters.compose.CharactersScr
 import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
-import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
+import com.google.accompanist.navigation.material.BottomSheetNavigator
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.google.accompanist.navigation.material.bottomSheet
 
+@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 fun NavigationGraph(
     innerPadding: PaddingValues,
     navController: NavHostController,
+    bottomSheetNavigator: BottomSheetNavigator,
     getCharacterViewModel: GetCharacterViewModel,
     getAllCharactersViewModel: GetAllCharactersViewModel
 ) {
 
-    NavHost(
-        navController,
-        startDestination = BottomNavItem.Random.screenRoute,
-        Modifier.padding(innerPadding)
-    ) {
-        composable(BottomNavItem.Random.screenRoute) {
-            RandomCharacterScreen(
-                randomCharacterState = getCharacterViewModel
-                    .uiState
-                    .collectAsState()
-                    .value,
-                handleEvent = getCharacterViewModel::handleEvent
-            )
-        }
+    ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
+        NavHost(
+            navController,
+            startDestination = BottomNavItem.Random.screenRoute,
+            Modifier.padding(innerPadding)
+        ) {
+            composable(BottomNavItem.Random.screenRoute) {
+                RandomCharacterScreen(
+                    randomCharacterState = getCharacterViewModel
+                        .uiState
+                        .collectAsState()
+                        .value,
+                    handleEvent = getCharacterViewModel::handleEvent
+                )
+            }
 
-        composable(BottomNavItem.Characters.screenRoute) {
-            CharactersScreen(
-                charactersState = getAllCharactersViewModel
-                    .uiState
-                    .collectAsState()
-                    .value,
-                handleEvent = getAllCharactersViewModel::handleEvent
-            )
-        }
+            composable(BottomNavItem.Characters.screenRoute) {
+                CharactersScreen(
+                    charactersState = getAllCharactersViewModel
+                        .uiState
+                        .collectAsState()
+                        .value,
+                    handleEvent = getAllCharactersViewModel::handleEvent
+                )
+            }
 
-        composable(BottomNavItem.Search.screenRoute) {
-            SearchCharacterScreen()
+            composable(BottomNavItem.Search.screenRoute) {
+                Button(onClick = {
+                    navController.navigate("sheet")
+                }) {
+                    Text("Click me to see something cool!")
+                }
+            }
+
+            bottomSheet(route = "characterSheet") {
+                // TODO ADD CHARACTER SHEET SCREEN
+            }
         }
     }
 }
