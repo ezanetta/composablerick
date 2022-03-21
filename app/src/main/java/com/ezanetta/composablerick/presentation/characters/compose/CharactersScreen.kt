@@ -3,8 +3,8 @@ package com.ezanetta.composablerick.presentation.characters.compose
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -72,7 +72,7 @@ fun CharacterList(
 
     LazyVerticalGrid(
         modifier = modifier,
-        cells = GridCells.Fixed(2),
+        columns = GridCells.Fixed(2),
         content = {
 
             items(characterListItems.itemCount) { index ->
