@@ -186,7 +186,7 @@ fun CharacterCard(
 }
 
 @Composable
-private fun AliveIndicator(status: Status) {
+fun AliveIndicator(status: Status) {
     Canvas(
         modifier = Modifier
             .padding(vertical = 5.dp)

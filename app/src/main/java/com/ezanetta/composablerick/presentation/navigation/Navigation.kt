@@ -18,8 +18,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ezanetta.composablerick.extensions.fromJsonStringToCharacter
 import com.ezanetta.composablerick.presentation.characters.compose.CharactersScreen
 import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
+import com.ezanetta.composablerick.presentation.charactersheet.compose.CharacterSheetScreen
+import com.ezanetta.composablerick.presentation.charactersheet.model.CharacterSheetState
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
 import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
@@ -60,7 +63,8 @@ fun NavigationGraph(
                         .uiState
                         .collectAsState()
                         .value,
-                    handleEvent = getAllCharactersViewModel::handleEvent
+                    handleEvent = getAllCharactersViewModel::handleEvent,
+                    navController = navController
                 )
             }
 
@@ -68,8 +72,17 @@ fun NavigationGraph(
                 SearchCharacterScreen()
             }
 
-            bottomSheet(route = "characterSheet") {
-                // TODO ADD CHARACTER SHEET SCREEN
+            bottomSheet(route = CharacterSheetDestination.ROUTE_WITH_ARG) { backstackEntry ->
+                val characterJson = backstackEntry.arguments
+                    ?.getString(CharacterSheetDestination.CHARACTER_ARG)
+
+                CharacterSheetScreen(
+                    characterSheetState = CharacterSheetState(
+                        requireNotNull(
+                            fromJsonStringToCharacter(requireNotNull(characterJson))
+                        )
+                    )
+                )
             }
         }
     }

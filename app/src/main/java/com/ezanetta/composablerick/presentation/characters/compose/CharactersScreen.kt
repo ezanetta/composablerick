@@ -2,6 +2,7 @@ package com.ezanetta.composablerick.presentation.characters.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -11,13 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ezanetta.composablerick.domain.entity.Character
+import com.ezanetta.composablerick.extensions.toJsonStringFromCharacter
 import com.ezanetta.composablerick.presentation.characters.model.CharactersEvent
 import com.ezanetta.composablerick.presentation.characters.model.CharactersState
+import com.ezanetta.composablerick.presentation.navigation.CharacterSheetDestination
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.CharacterCard
 import com.ezanetta.composablerick.presentation.ui.theme.ComposableRickTheme
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +30,8 @@ import kotlinx.coroutines.flow.Flow
 fun CharactersScreen(
     modifier: Modifier = Modifier,
     charactersState: CharactersState,
-    handleEvent: (event: CharactersEvent) -> Unit
+    handleEvent: (event: CharactersEvent) -> Unit,
+    navController: NavController
 ) {
     ComposableRickTheme {
         Column(
@@ -35,7 +40,7 @@ fun CharactersScreen(
                 .background(MaterialTheme.colors.background)
                 .wrapContentSize(Alignment.Center)
         ) {
-            RenderCharacterList(charactersState, handleEvent)
+            RenderCharacterList(charactersState, handleEvent, navController)
             RenderLoading(charactersState = charactersState)
         }
     }
@@ -53,10 +58,15 @@ fun RenderLoading(
 @Composable
 fun RenderCharacterList(
     charactersState: CharactersState,
-    handleEvent: (event: CharactersEvent) -> Unit
+    handleEvent: (event: CharactersEvent) -> Unit,
+    navController: NavController
 ) {
     charactersState.charactersPagingData?.let {
-        CharacterList(charactersPagingData = it, handleEvent = handleEvent)
+        CharacterList(
+            charactersPagingData = it,
+            handleEvent = handleEvent,
+            navController = navController
+        )
     }
 }
 
@@ -65,7 +75,8 @@ fun RenderCharacterList(
 fun CharacterList(
     modifier: Modifier = Modifier,
     charactersPagingData: Flow<PagingData<Character>>,
-    handleEvent: (event: CharactersEvent) -> Unit
+    handleEvent: (event: CharactersEvent) -> Unit,
+    navController: NavController
 ) {
     val characterListItems: LazyPagingItems<Character> =
         charactersPagingData.collectAsLazyPagingItems()
@@ -79,6 +90,9 @@ fun CharacterList(
                 characterListItems[index]?.let {
                     CharacterCard(
                         modifier = Modifier
+                            .clickable {
+                                navigateToCharacter(it, navController)
+                            }
                             .padding(vertical = 16.dp, horizontal = 10.dp)
                             .wrapContentWidth()
                             .wrapContentHeight(),
@@ -129,4 +143,12 @@ fun LoadingItem() {
             .padding(16.dp)
             .wrapContentWidth(Alignment.CenterHorizontally)
     )
+}
+
+private fun navigateToCharacter(
+    character: Character,
+    navController: NavController
+) {
+    val route = CharacterSheetDestination.getRouteWithArgument(toJsonStringFromCharacter(character))
+    navController.navigate(route)
 }
