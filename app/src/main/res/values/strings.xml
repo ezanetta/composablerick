@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">ComposableRick</string>
     <string name="reload_button_cd">Refresh character</string>
-    <string name="status_specie">%1$s - %2$s</string>
+    <string name="character_status_specie">%1$s - %2$s</string>
+    <string name="character_last_known_location">Last known location</string>
+    <string name="character_gender">Gender</string>
+    <string name="character_type">Type</string>
+    <string name="character_first_seen_in">First seen in</string>
+    <string name="character_first_seen_episode">Episode %1$s</string>
 </resources>

@@ -18,10 +18,9 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ezanetta.composablerick.domain.entity.Character
-import com.ezanetta.composablerick.extensions.toJsonStringFromCharacter
 import com.ezanetta.composablerick.presentation.characters.model.CharactersEvent
 import com.ezanetta.composablerick.presentation.characters.model.CharactersState
-import com.ezanetta.composablerick.presentation.navigation.CharacterDetailDestination
+import com.ezanetta.composablerick.presentation.navigation.navigateToCharacter
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.CharacterCard
 import com.ezanetta.composablerick.presentation.ui.theme.ComposableRickTheme
 import kotlinx.coroutines.flow.Flow
@@ -143,12 +142,4 @@ fun LoadingItem() {
             .padding(16.dp)
             .wrapContentWidth(Alignment.CenterHorizontally)
     )
-}
-
-private fun navigateToCharacter(
-    character: Character,
-    navController: NavController
-) {
-    val route = CharacterDetailDestination.getRouteWithArgument(toJsonStringFromCharacter(character))
-    navController.navigate(route)
 }

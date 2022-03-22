@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,10 +21,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ezanetta.composablerick.R
 import com.ezanetta.composablerick.domain.entity.Character
 import com.ezanetta.composablerick.domain.entity.Status
+import com.ezanetta.composablerick.presentation.navigation.navigateToCharacter
 import com.ezanetta.composablerick.presentation.randomcharacter.model.RandomCharacterEvent
 import com.ezanetta.composablerick.presentation.randomcharacter.model.RandomCharacterState
 import com.ezanetta.composablerick.presentation.randomcharacter.model.Tags.LOAD_CHARACTER_ACTION_BUTTON
@@ -39,14 +42,15 @@ import com.ezanetta.composablerick.presentation.ui.theme.ComposableRickTheme
 fun RandomCharacterScreen(
     modifier: Modifier = Modifier,
     randomCharacterState: RandomCharacterState,
-    handleEvent: (event: RandomCharacterEvent) -> Unit
+    handleEvent: (event: RandomCharacterEvent) -> Unit,
+    navController: NavController
 ) {
     ComposableRickTheme {
         Surface(
             modifier = modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            RenderCharacterCard(randomCharacterState)
+            RenderCharacterCard(randomCharacterState, navController)
             RenderLoading(randomCharacterState)
             LoadCharacterButton(randomCharacterState, handleEvent)
         }
@@ -69,7 +73,8 @@ private fun RenderLoading(
 
 @Composable
 private fun RenderCharacterCard(
-    randomCharacterState: RandomCharacterState
+    randomCharacterState: RandomCharacterState,
+    navController: NavController
 ) {
     AnimatedVisibility(
         enter = fadeIn(),
@@ -78,7 +83,11 @@ private fun RenderCharacterCard(
     ) {
         randomCharacterState.character?.let {
             CharacterCard(
-                modifier = Modifier.padding(all = 20.dp)
+                modifier = Modifier
+                    .padding(all = 20.dp)
+                    .clickable {
+                        navigateToCharacter(it, navController)
+                    }
                     .wrapContentWidth()
                     .wrapContentHeight(),
                 character = it,
@@ -172,7 +181,7 @@ fun CharacterCard(
                             .testTag(RANDOM_CHARACTER_STATUS_AND_SPECIES)
                             .padding(horizontal = 4.dp),
                         text = String.format(
-                            stringResource(id = R.string.status_specie),
+                            stringResource(id = R.string.character_status_specie),
                             character.status,
                             character.species
                         ),
@@ -188,9 +197,7 @@ fun CharacterCard(
 @Composable
 fun AliveIndicator(status: Status) {
     Canvas(
-        modifier = Modifier
-            .padding(vertical = 5.dp)
-            .size(8.dp),
+        modifier = Modifier.size(8.dp),
         onDraw = {
             drawCircle(color = status.color)
         })

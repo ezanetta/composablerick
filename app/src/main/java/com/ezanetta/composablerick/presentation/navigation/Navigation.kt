@@ -19,7 +19,9 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ezanetta.composablerick.domain.entity.Character
 import com.ezanetta.composablerick.extensions.fromJsonStringToCharacter
+import com.ezanetta.composablerick.extensions.toJsonStringFromCharacter
 import com.ezanetta.composablerick.presentation.characterdetail.compose.CharacterSheetScreen
 import com.ezanetta.composablerick.presentation.characterdetail.model.CharacterDetailState
 import com.ezanetta.composablerick.presentation.characters.compose.CharactersScreen
@@ -39,7 +41,7 @@ fun NavigationGraph(
     getCharacterViewModel: GetCharacterViewModel,
     getAllCharactersViewModel: GetAllCharactersViewModel
 ) {
-    val transitionAnimationDuration = 250
+    val transitionAnimationDuration = 300
 
     AnimatedNavHost(
         navController,
@@ -52,7 +54,8 @@ fun NavigationGraph(
                     .uiState
                     .collectAsState()
                     .value,
-                handleEvent = getCharacterViewModel::handleEvent
+                handleEvent = getCharacterViewModel::handleEvent,
+                navController = navController
             )
         }
 
@@ -169,4 +172,12 @@ fun RenderBottomNavigation(navController: NavController) {
             )
         }
     }
+}
+
+fun navigateToCharacter(
+    character: Character,
+    navController: NavController
+) {
+    val route = CharacterDetailDestination.getRouteWithArgument(toJsonStringFromCharacter(character))
+    navController.navigate(route)
 }

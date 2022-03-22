@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.navigation.NavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ezanetta.composablerick.R
@@ -36,6 +37,8 @@ class RandomCharacterScreenTest {
     private val targetContext = InstrumentationRegistry
         .getInstrumentation().targetContext
 
+    private val navController: NavController = mock()
+
     @Test
     fun progressBarDisplayedWhileIsLoading() {
         // GIVEN
@@ -44,7 +47,8 @@ class RandomCharacterScreenTest {
         composeTestRule.setContent {
             RandomCharacterScreen(
                 randomCharacterState = RandomCharacterState(isLoading = true),
-                handleEvent = {}
+                handleEvent = {},
+                navController = navController
             )
         }
 
@@ -62,7 +66,8 @@ class RandomCharacterScreenTest {
         composeTestRule.setContent {
             RandomCharacterScreen(
                 randomCharacterState = RandomCharacterState(isLoading = false),
-                handleEvent = {}
+                handleEvent = {},
+                navController = navController
             )
         }
 
@@ -80,7 +85,8 @@ class RandomCharacterScreenTest {
         composeTestRule.setContent {
             RandomCharacterScreen(
                 randomCharacterState = RandomCharacterState(isLoading = true),
-                handleEvent = {}
+                handleEvent = {},
+                navController = navController
             )
         }
 
@@ -98,7 +104,8 @@ class RandomCharacterScreenTest {
         composeTestRule.setContent {
             RandomCharacterScreen(
                 randomCharacterState = RandomCharacterState(isLoading = true),
-                handleEvent = {}
+                handleEvent = {},
+                navController = navController
             )
         }
 
@@ -119,7 +126,8 @@ class RandomCharacterScreenTest {
                     isLoading = false,
                     character = JesusChristCharacter
                 ),
-                handleEvent = {}
+                handleEvent = {},
+                navController = navController
             )
         }
 
@@ -140,7 +148,7 @@ class RandomCharacterScreenTest {
             .assertIsDisplayed()
             .assertTextEquals(
                 String.format(
-                    targetContext.getString(R.string.status_specie,
+                    targetContext.getString(R.string.character_status_specie,
                         JesusChristCharacter.status,
                         JesusChristCharacter.species)
                 )
@@ -159,7 +167,8 @@ class RandomCharacterScreenTest {
                     isLoading = false,
                     character = JesusChristCharacter
                 ),
-                handleEvent = onLoadCharacter
+                handleEvent = onLoadCharacter,
+                navController = navController
             )
         }
 
