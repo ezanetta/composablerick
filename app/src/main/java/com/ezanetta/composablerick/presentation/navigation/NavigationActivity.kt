@@ -3,25 +3,25 @@ package com.ezanetta.composablerick.presentation.navigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.Scaffold
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NavigationActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalMaterialNavigationApi::class)
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val getCharacterViewModel: GetCharacterViewModel = viewModel()
             val getAllCharactersViewModel: GetAllCharactersViewModel = viewModel()
-            val navController = rememberNavController()
+            val navController = rememberAnimatedNavController()
 
             Scaffold(
                 bottomBar = { RenderBottomNavigation(navController = navController) }

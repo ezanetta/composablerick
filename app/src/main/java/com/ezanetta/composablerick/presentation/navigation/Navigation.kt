@@ -1,5 +1,8 @@
 package com.ezanetta.composablerick.presentation.navigation
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -15,8 +18,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ezanetta.composablerick.extensions.fromJsonStringToCharacter
 import com.ezanetta.composablerick.presentation.characterdetail.compose.CharacterSheetScreen
@@ -26,9 +27,11 @@ import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllChara
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
 import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
+
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavigationGraph(
     innerPadding: PaddingValues,
@@ -36,8 +39,9 @@ fun NavigationGraph(
     getCharacterViewModel: GetCharacterViewModel,
     getAllCharactersViewModel: GetAllCharactersViewModel
 ) {
+    val transitionAnimationDuration = 250
 
-    NavHost(
+    AnimatedNavHost(
         navController,
         startDestination = BottomNavItem.Random.screenRoute,
         Modifier.padding(innerPadding)
@@ -52,7 +56,49 @@ fun NavigationGraph(
             )
         }
 
-        composable(BottomNavItem.Characters.screenRoute) {
+        composable(
+            BottomNavItem.Characters.screenRoute,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    CharacterDetailDestination.ROUTE_WITH_ARG ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Up,
+                            animationSpec = tween(transitionAnimationDuration)
+                        )
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    CharacterDetailDestination.ROUTE_WITH_ARG ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Up,
+                            animationSpec = tween(transitionAnimationDuration)
+                        )
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    CharacterDetailDestination.ROUTE_WITH_ARG ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(transitionAnimationDuration)
+                        )
+                    else -> null
+                }
+            },
+            popExitTransition = {
+                when (targetState.destination.route) {
+                    CharacterDetailDestination.ROUTE_WITH_ARG ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(transitionAnimationDuration)
+                        )
+                    else -> null
+                }
+            }
+        ) {
             CharactersScreen(
                 charactersState = getAllCharactersViewModel
                     .uiState
@@ -67,7 +113,9 @@ fun NavigationGraph(
             SearchCharacterScreen()
         }
 
-        composable(CharacterDetailDestination.ROUTE_WITH_ARG) { backstackEntry ->
+        composable(
+            CharacterDetailDestination.ROUTE_WITH_ARG
+        ) { backstackEntry ->
             val characterJson = backstackEntry.arguments
                 ?.getString(CharacterDetailDestination.CHARACTER_ARG)
 
