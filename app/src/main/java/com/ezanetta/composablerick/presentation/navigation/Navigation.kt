@@ -3,6 +3,8 @@ package com.ezanetta.composablerick.presentation.navigation
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -59,49 +61,7 @@ fun NavigationGraph(
             )
         }
 
-        composable(
-            BottomNavItem.Characters.screenRoute,
-            enterTransition = {
-                when (initialState.destination.route) {
-                    CharacterDetailDestination.ROUTE_WITH_ARG ->
-                        slideIntoContainer(
-                            AnimatedContentScope.SlideDirection.Up,
-                            animationSpec = tween(transitionAnimationDuration)
-                        )
-                    else -> null
-                }
-            },
-            exitTransition = {
-                when (targetState.destination.route) {
-                    CharacterDetailDestination.ROUTE_WITH_ARG ->
-                        slideOutOfContainer(
-                            AnimatedContentScope.SlideDirection.Up,
-                            animationSpec = tween(transitionAnimationDuration)
-                        )
-                    else -> null
-                }
-            },
-            popEnterTransition = {
-                when (initialState.destination.route) {
-                    CharacterDetailDestination.ROUTE_WITH_ARG ->
-                        slideIntoContainer(
-                            AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(transitionAnimationDuration)
-                        )
-                    else -> null
-                }
-            },
-            popExitTransition = {
-                when (targetState.destination.route) {
-                    CharacterDetailDestination.ROUTE_WITH_ARG ->
-                        slideOutOfContainer(
-                            AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(transitionAnimationDuration)
-                        )
-                    else -> null
-                }
-            }
-        ) {
+        composable(BottomNavItem.Characters.screenRoute) {
             CharactersScreen(
                 charactersState = getAllCharactersViewModel
                     .uiState
@@ -117,7 +77,35 @@ fun NavigationGraph(
         }
 
         composable(
-            CharacterDetailDestination.ROUTE_WITH_ARG
+            CharacterDetailDestination.ROUTE_WITH_ARG,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    BottomNavItem.Characters.screenRoute ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Up,
+                            animationSpec = tween(transitionAnimationDuration)
+                        )
+
+                    BottomNavItem.Random.screenRoute -> {
+                        expandIn(animationSpec = tween(transitionAnimationDuration))
+                    }
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    BottomNavItem.Characters.screenRoute ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(transitionAnimationDuration)
+                        )
+
+                    BottomNavItem.Random.screenRoute -> {
+                        shrinkOut(animationSpec = tween(transitionAnimationDuration))
+                    }
+                    else -> null
+                }
+            }
         ) { backstackEntry ->
             val characterJson = backstackEntry.arguments
                 ?.getString(CharacterDetailDestination.CHARACTER_ARG)
