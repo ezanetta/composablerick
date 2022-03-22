@@ -19,71 +19,65 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ezanetta.composablerick.extensions.fromJsonStringToCharacter
+import com.ezanetta.composablerick.presentation.characterdetail.compose.CharacterSheetScreen
+import com.ezanetta.composablerick.presentation.characterdetail.model.CharacterDetailState
 import com.ezanetta.composablerick.presentation.characters.compose.CharactersScreen
 import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
-import com.ezanetta.composablerick.presentation.charactersheet.compose.CharacterSheetScreen
-import com.ezanetta.composablerick.presentation.charactersheet.model.CharacterSheetState
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
 import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
-import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.google.accompanist.navigation.material.bottomSheet
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 fun NavigationGraph(
     innerPadding: PaddingValues,
     navController: NavHostController,
-    bottomSheetNavigator: BottomSheetNavigator,
     getCharacterViewModel: GetCharacterViewModel,
     getAllCharactersViewModel: GetAllCharactersViewModel
 ) {
 
-    ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
-        NavHost(
-            navController,
-            startDestination = BottomNavItem.Random.screenRoute,
-            Modifier.padding(innerPadding)
-        ) {
-            composable(BottomNavItem.Random.screenRoute) {
-                RandomCharacterScreen(
-                    randomCharacterState = getCharacterViewModel
-                        .uiState
-                        .collectAsState()
-                        .value,
-                    handleEvent = getCharacterViewModel::handleEvent
-                )
-            }
+    NavHost(
+        navController,
+        startDestination = BottomNavItem.Random.screenRoute,
+        Modifier.padding(innerPadding)
+    ) {
+        composable(BottomNavItem.Random.screenRoute) {
+            RandomCharacterScreen(
+                randomCharacterState = getCharacterViewModel
+                    .uiState
+                    .collectAsState()
+                    .value,
+                handleEvent = getCharacterViewModel::handleEvent
+            )
+        }
 
-            composable(BottomNavItem.Characters.screenRoute) {
-                CharactersScreen(
-                    charactersState = getAllCharactersViewModel
-                        .uiState
-                        .collectAsState()
-                        .value,
-                    handleEvent = getAllCharactersViewModel::handleEvent,
-                    navController = navController
-                )
-            }
+        composable(BottomNavItem.Characters.screenRoute) {
+            CharactersScreen(
+                charactersState = getAllCharactersViewModel
+                    .uiState
+                    .collectAsState()
+                    .value,
+                handleEvent = getAllCharactersViewModel::handleEvent,
+                navController = navController
+            )
+        }
 
-            composable(BottomNavItem.Search.screenRoute) {
-                SearchCharacterScreen()
-            }
+        composable(BottomNavItem.Search.screenRoute) {
+            SearchCharacterScreen()
+        }
 
-            bottomSheet(route = CharacterSheetDestination.ROUTE_WITH_ARG) { backstackEntry ->
-                val characterJson = backstackEntry.arguments
-                    ?.getString(CharacterSheetDestination.CHARACTER_ARG)
+        composable(CharacterDetailDestination.ROUTE_WITH_ARG) { backstackEntry ->
+            val characterJson = backstackEntry.arguments
+                ?.getString(CharacterDetailDestination.CHARACTER_ARG)
 
-                CharacterSheetScreen(
-                    characterSheetState = CharacterSheetState(
-                        requireNotNull(
-                            fromJsonStringToCharacter(requireNotNull(characterJson))
-                        )
+            CharacterSheetScreen(
+                characterDetailState = CharacterDetailState(
+                    requireNotNull(
+                        fromJsonStringToCharacter(requireNotNull(characterJson))
                     )
                 )
-            }
+            )
         }
     }
 }

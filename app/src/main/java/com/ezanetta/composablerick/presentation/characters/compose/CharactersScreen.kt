@@ -21,7 +21,7 @@ import com.ezanetta.composablerick.domain.entity.Character
 import com.ezanetta.composablerick.extensions.toJsonStringFromCharacter
 import com.ezanetta.composablerick.presentation.characters.model.CharactersEvent
 import com.ezanetta.composablerick.presentation.characters.model.CharactersState
-import com.ezanetta.composablerick.presentation.navigation.CharacterSheetDestination
+import com.ezanetta.composablerick.presentation.navigation.CharacterDetailDestination
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.CharacterCard
 import com.ezanetta.composablerick.presentation.ui.theme.ComposableRickTheme
 import kotlinx.coroutines.flow.Flow
@@ -149,6 +149,6 @@ private fun navigateToCharacter(
     character: Character,
     navController: NavController
 ) {
-    val route = CharacterSheetDestination.getRouteWithArgument(toJsonStringFromCharacter(character))
+    val route = CharacterDetailDestination.getRouteWithArgument(toJsonStringFromCharacter(character))
     navController.navigate(route)
 }

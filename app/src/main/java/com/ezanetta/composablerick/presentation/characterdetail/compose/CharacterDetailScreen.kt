@@ -1,4 +1,4 @@
-package com.ezanetta.composablerick.presentation.charactersheet.compose
+package com.ezanetta.composablerick.presentation.characterdetail.compose
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -15,14 +15,14 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ezanetta.composablerick.R
 import com.ezanetta.composablerick.domain.entity.Character
-import com.ezanetta.composablerick.presentation.charactersheet.model.CharacterSheetState
+import com.ezanetta.composablerick.presentation.characterdetail.model.CharacterDetailState
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.AliveIndicator
 import com.ezanetta.composablerick.presentation.ui.theme.ComposableRickTheme
 
 @Composable
 fun CharacterSheetScreen(
     modifier: Modifier = Modifier,
-    characterSheetState: CharacterSheetState
+    characterDetailState: CharacterDetailState
 ) {
     ComposableRickTheme {
         Surface(
@@ -30,7 +30,7 @@ fun CharacterSheetScreen(
             color = MaterialTheme.colors.background
         ) {
             Character(
-                character = characterSheetState.character
+                character = characterDetailState.character
             )
         }
     }
