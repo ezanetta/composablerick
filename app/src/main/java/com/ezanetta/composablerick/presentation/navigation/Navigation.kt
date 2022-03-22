@@ -3,8 +3,8 @@ package com.ezanetta.composablerick.presentation.navigation
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandIn
-import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -87,7 +87,7 @@ fun NavigationGraph(
                         )
 
                     BottomNavItem.Random.screenRoute -> {
-                        expandIn(animationSpec = tween(transitionAnimationDuration))
+                        scaleIn(animationSpec = tween(transitionAnimationDuration))
                     }
                     else -> null
                 }
@@ -101,7 +101,7 @@ fun NavigationGraph(
                         )
 
                     BottomNavItem.Random.screenRoute -> {
-                        shrinkOut(animationSpec = tween(transitionAnimationDuration))
+                        scaleOut(animationSpec = tween(transitionAnimationDuration))
                     }
                     else -> null
                 }
