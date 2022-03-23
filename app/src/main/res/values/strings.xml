@@ -7,4 +7,5 @@
     <string name="character_type">Type</string>
     <string name="character_first_seen_in">First seen in</string>
     <string name="character_first_seen_episode">Episode %1$s</string>
+    <string name="character_close_screen_cd">Close character screen</string>
 </resources>

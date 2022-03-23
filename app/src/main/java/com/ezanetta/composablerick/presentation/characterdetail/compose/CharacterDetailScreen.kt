@@ -2,12 +2,15 @@ package com.ezanetta.composablerick.presentation.characterdetail.compose
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ezanetta.composablerick.R
 import com.ezanetta.composablerick.domain.entity.Character
@@ -27,7 +31,8 @@ import com.ezanetta.composablerick.presentation.ui.theme.ComposableRickTheme
 @Composable
 fun CharacterSheetScreen(
     modifier: Modifier = Modifier,
-    characterDetailState: CharacterDetailState
+    characterDetailState: CharacterDetailState,
+    navController: NavController
 ) {
     ComposableRickTheme {
         Surface(
@@ -35,7 +40,8 @@ fun CharacterSheetScreen(
             color = MaterialTheme.colors.background
         ) {
             Character(
-                character = characterDetailState.character
+                character = characterDetailState.character,
+                navController = navController
             )
         }
     }
@@ -44,23 +50,49 @@ fun CharacterSheetScreen(
 @Composable
 fun Character(
     modifier: Modifier = Modifier,
-    character: Character
+    character: Character,
+    navController: NavController
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        AsyncImage(
-            modifier = Modifier
-                .padding(16.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .fillMaxWidth()
-                .height(300.dp),
-            contentScale = ContentScale.Crop,
-            model = character.image,
-            contentDescription = character.name,
-        )
+        Box(contentAlignment = Alignment.TopStart) {
+            val alphaValue = remember { 0.7f }
+
+            AsyncImage(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .fillMaxWidth()
+                    .height(300.dp),
+                contentScale = ContentScale.Crop,
+                model = character.image,
+                contentDescription = character.name,
+            )
+
+            OutlinedButton(
+                onClick = {
+                    navController.popBackStack()
+                },
+                modifier = Modifier
+                    .size(74.dp)
+                    .padding(20.dp),
+                shape = CircleShape,
+                border = BorderStroke(1.dp, Color.DarkGray.copy(alphaValue)),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = Color.White,
+                    backgroundColor = Color.DarkGray.copy(alphaValue)
+                )
+            ) {
+                Icon(
+                    Icons.Default.Close, contentDescription =
+                    stringResource(id = R.string.character_close_screen_cd)
+                )
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()

@@ -110,7 +110,8 @@ fun NavigationGraph(
                     requireNotNull(
                         fromJsonStringToCharacter(requireNotNull(characterJson))
                     )
-                )
+                ),
+                navController = navController
             )
         }
     }
