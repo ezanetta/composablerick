@@ -133,18 +133,18 @@ class RandomCharacterScreenTest {
 
         // THEN
         composeTestRule
-            .onNodeWithTag(RANDOM_CHARACTER_NAME)
+            .onNodeWithTag(RANDOM_CHARACTER_NAME, useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals(
                 JesusChristCharacter.name
             )
 
         composeTestRule
-            .onNodeWithTag(RANDOM_CHARACTER_IMAGE)
+            .onNodeWithTag(RANDOM_CHARACTER_IMAGE, useUnmergedTree = true)
             .assertIsDisplayed()
 
         composeTestRule
-            .onNodeWithTag(RANDOM_CHARACTER_STATUS_AND_SPECIES)
+            .onNodeWithTag(RANDOM_CHARACTER_STATUS_AND_SPECIES, useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals(
                 String.format(
