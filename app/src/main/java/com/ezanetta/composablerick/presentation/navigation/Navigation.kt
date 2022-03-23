@@ -30,7 +30,6 @@ import com.ezanetta.composablerick.presentation.characters.compose.CharactersScr
 import com.ezanetta.composablerick.presentation.characters.viewmodel.GetAllCharactersViewModel
 import com.ezanetta.composablerick.presentation.randomcharacter.compose.RandomCharacterScreen
 import com.ezanetta.composablerick.presentation.randomcharacter.viewmodel.GetCharacterViewModel
-import com.ezanetta.composablerick.presentation.search.SearchCharacterScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -70,10 +69,6 @@ fun NavigationGraph(
                 handleEvent = getAllCharactersViewModel::handleEvent,
                 navController = navController
             )
-        }
-
-        composable(BottomNavItem.Search.screenRoute) {
-            SearchCharacterScreen()
         }
 
         composable(
@@ -126,7 +121,6 @@ fun RenderBottomNavigation(navController: NavController) {
     val items = listOf(
         BottomNavItem.Random,
         BottomNavItem.Characters,
-        BottomNavItem.Search,
     )
 
     BottomNavigation(
