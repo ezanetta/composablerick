@@ -12,12 +12,13 @@ ComposableRick demonstrates modern Android development with Jetpack Compose, Hil
 - JetPack libraries
   - Jetpack Compose for UI 
   - Navigation Compose
-  - MutableStateFlow for communication between ViewModel and UI
+  - MutableStateFlow
   - ViewModel - UI related data holder, lifecycle aware.
+  - Paging 3 (Paging-compose)
 - Retrofit for networking
 - Coil-compose for async image loading
 - Moshi for serialization
-- Sandwich for handling networking responses
+- Sandwich
 - Mockito & Kotlin Mockito
 
 
