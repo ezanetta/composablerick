@@ -22,5 +22,7 @@ ComposableRick demonstrates modern Android development with Jetpack Compose, Hil
 - Mockito & Kotlin Mockito
 
 
-- Architecture
-  - MVVM Architecture (View - ViewModel - Model)
+## MAD Score
+<img src="https://user-images.githubusercontent.com/5092994/160577027-45d0296a-1f07-49f3-b37f-f5bddfa59fc4.png" width="1000" />
+<img src="https://user-images.githubusercontent.com/5092994/160576571-c4340e96-92e7-4483-933f-fe72e304b5a6.png" width="1000" />
+<img src="https://user-images.githubusercontent.com/5092994/160576565-ab0199cb-60bb-446f-87c9-06932c093ff8.png" width="1000" />
